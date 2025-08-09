@@ -9,6 +9,7 @@ import com.dmartinez.api.service.invoice.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,7 +41,11 @@ public class InvoiceServiceImpl implements InvoiceService {
             Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
             // 2. Generar URL pública (ajústala si usas dominio real o nginx)
-            String fileUrl = "http://localhost:8002/invoices/" + storedFileName;
+            String fileUrl = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/invoices/")
+                    .path(storedFileName)
+                    .toUriString();
 
             // 3. Mapear y guardar
             Invoice invoice = invoiceMapper.fromRequest(request, fileUrl);
