@@ -2,28 +2,28 @@ package com.dmartinez.api.model.mapper;
 
 import com.dmartinez.api.model.Invoice;
 import com.dmartinez.api.model.dto.CreateInvoiceDTO;
+import com.dmartinez.api.model.dto.InvoiceResponseDTO;
 
 public class InvoiceMapper {
 
-    public static CreateInvoiceDTO toDTO(Invoice invoice) {
-        CreateInvoiceDTO createInvoiceDTO = new CreateInvoiceDTO();
-
-        createInvoiceDTO.setCategory(invoice.getCategory());
-        createInvoiceDTO.setStartPeriod(invoice.getStartPeriod());
-        createInvoiceDTO.setEndPeriod(invoice.getEndPeriod());
-        createInvoiceDTO.setFileName(createInvoiceDTO.getFileName());
-
-        return createInvoiceDTO;
+    // De DTO de creación a entidad
+    public Invoice fromRequest(CreateInvoiceDTO request, String fileUrl) {
+        Invoice invoice = new Invoice();
+        invoice.setCategory(request.getCategory());
+        invoice.setStartPeriod(request.getStartPeriod());
+        invoice.setEndPeriod(request.getEndPeriod());
+        invoice.setFileUrl(fileUrl);
+        return invoice;
     }
 
-    public static Invoice toEntity(CreateInvoiceDTO createInvoiceDTO, String fileUrl) {
-        Invoice invoice = new Invoice();
-
-        invoice.setCategory(createInvoiceDTO.getCategory());
-        invoice.setStartPeriod(createInvoiceDTO.getStartPeriod());
-        invoice.setEndPeriod(createInvoiceDTO.getEndPeriod());
-        invoice.setFileUrl(fileUrl);
-
-        return invoice;
+    // De entidad a DTO de respuesta
+    public InvoiceResponseDTO toDTO(Invoice invoice) {
+        InvoiceResponseDTO dto = new InvoiceResponseDTO();
+        dto.setUuid(invoice.getInvoiceId());
+        dto.setCategory(invoice.getCategory());
+        dto.setStartPeriod(invoice.getStartPeriod());
+        dto.setEndPeriod(invoice.getEndPeriod());
+        dto.setFileUrl(invoice.getFileUrl());
+        return dto;
     }
 }
