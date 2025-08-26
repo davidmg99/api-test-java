@@ -5,7 +5,9 @@ import com.dmartinez.api.model.dto.CreateInvoiceDTO;
 import com.dmartinez.api.model.dto.InvoiceResponseDTO;
 import com.dmartinez.api.model.mapper.InvoiceMapper;
 import com.dmartinez.api.repository.InvoiceRepository;
+import com.dmartinez.api.service.file.FileStorageService;
 import com.dmartinez.api.service.invoice.InvoiceService;
+import com.dmartinez.api.service.urlgenerator.FileUrlGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,38 +28,30 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final InvoiceMapper invoiceMapper;
+    private final FileStorageService fileStorageService;
+    private final FileUrlGenerator fileUrlGenerator;
 
     private final Path storageFolder = Paths.get("invoices");
 
     @Override
     public InvoiceResponseDTO createInvoice(CreateInvoiceDTO request) {
+        MultipartFile file = request.getFileName();
+
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("El archivo está vacío");
+        }
 
         try {
-            // 1. Guardar archivo
-            MultipartFile file = request.getFileName();
-            String storedFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Files.createDirectories(storageFolder);
-            Path destination = storageFolder.resolve(storedFileName);
-            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-
-            // 2. Generar URL pública (ajústala si usas dominio real o nginx)
-            String fileUrl = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/invoices/")
-                    .path(storedFileName)
-                    .toUriString();
-
-            // 3. Mapear y guardar
+            String storedFileName = fileStorageService.storeFile(file);
+            String fileUrl = fileUrlGenerator.generateUrl(storedFileName);
             Invoice invoice = invoiceMapper.fromRequest(request, fileUrl);
-            Invoice savedInvoice = invoiceRepository.save(invoice);
-
-            // 4. Convertir a DTO de respuesta
-            return invoiceMapper.toDTO(savedInvoice);
-
+            Invoice saved = invoiceRepository.save(invoice);
+            return invoiceMapper.toDTO(saved);
         } catch (IOException e) {
             throw new RuntimeException("Error al guardar el archivo", e);
         }
     }
+
 
     @Override
     public List<InvoiceResponseDTO> getAllInvoices() {
@@ -65,5 +59,17 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .stream()
                 .map(invoiceMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    private Invoice mapToEntity(CreateInvoiceDTO request, String fileUrl) {
+        return invoiceMapper.fromRequest(request, fileUrl);
+    }
+
+    private Invoice saveInvoice(Invoice invoice) {
+        return invoiceRepository.save(invoice);
+    }
+
+    private InvoiceResponseDTO mapToResponse(Invoice invoice) {
+        return invoiceMapper.toDTO(invoice);
     }
 }

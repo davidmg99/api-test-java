@@ -51,3 +51,33 @@ flowchart TD
 
     M[GET /invoices/#123;fileName#125;] --> N[ResourceHandler]
     N --> O[Devuelve archivo físico desde ./invoices]
+
+```
+## 🧪 Ejecutar la API y los tests
+
+Este proyecto usa `docker-compose` con contenedores separados para:
+
+- `springboot-app`: la aplicación Spring Boot compilada.
+- `postgres-db`: base de datos PostgreSQL.
+- `tests-runner`: contenedor Maven que ejecuta los tests con Testcontainers.
+
+### ✅ Requisitos
+- Docker Desktop (Windows/Mac)
+- Docker Engine (Linux)
+
+---
+
+### 🪟 Windows (por defecto)
+
+Docker Desktop ya configura automáticamente el socket de Docker en Windows.
+Simplemente ejecuta:
+
+```powershell
+docker compose up --build
+```
+
+### 🐧 Linux / 🍎 MacOS
+
+```powershell
+DOCKER_SOCKET=/var/run/docker.sock docker compose up --build
+```

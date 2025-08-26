@@ -3,7 +3,10 @@ package com.dmartinez.api.model.mapper;
 import com.dmartinez.api.model.Invoice;
 import com.dmartinez.api.model.dto.CreateInvoiceDTO;
 import com.dmartinez.api.model.dto.InvoiceResponseDTO;
+import org.hibernate.annotations.Comment;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InvoiceMapper {
 
     // De DTO de creación a entidad
