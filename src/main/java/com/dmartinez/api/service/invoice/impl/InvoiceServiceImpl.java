@@ -27,8 +27,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final FileStorageService fileStorageService;
     private final FileUrlGenerator fileUrlGenerator;
 
-    private final Path storageFolder = Paths.get("invoices");
-
     @Override
     public InvoiceResponseDTO createInvoice(CreateInvoiceDTO request) {
         MultipartFile file = request.getFile();
