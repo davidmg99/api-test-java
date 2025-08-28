@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class InvoiceResponseDTO {
-    private Long uuid;
+    private Long id;
     private String category;
     private LocalDateTime startPeriod;
     private LocalDateTime endPeriod;

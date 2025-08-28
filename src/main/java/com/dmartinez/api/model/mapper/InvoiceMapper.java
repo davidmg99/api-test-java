@@ -22,7 +22,7 @@ public class InvoiceMapper {
     // De entidad a DTO de respuesta
     public InvoiceResponseDTO toDTO(Invoice invoice) {
         InvoiceResponseDTO dto = new InvoiceResponseDTO();
-        dto.setUuid(invoice.getInvoiceId());
+        dto.setId(invoice.getInvoiceId());
         dto.setCategory(invoice.getCategory());
         dto.setStartPeriod(invoice.getStartPeriod());
         dto.setEndPeriod(invoice.getEndPeriod());
