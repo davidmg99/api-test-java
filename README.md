@@ -6,32 +6,12 @@ API REST para gestión de *Invoices* con soporte de subida de archivos y acceso 
 
 ## 🚀 Tecnologías
 - Java 17
-- Spring Boot 3.x (Web MVC, Data JPA)
+- Spring Boot 3.5.5
 - PostgreSQL
 - Lombok
-- Swagger / OpenAPI
 - Docker & Docker Compose
 
 ---
-
-## 📂 Estructura básica del proyecto
-
-- **src/**
-    - **main/**
-        - **java/**
-            - **com/**
-                - **example/**
-                    - **invoices/**
-                        - **controller/** → Controladores REST
-                        - **service/** → Lógica de negocio
-                        - **dto/** → DTOs de request/response
-                        - **mapper/** → Conversión DTO ↔ Entidad
-                        - **entity/** → Entidades JPA
-                        - **config/** → Configuración (ej. recursos estáticos)
-        - **resources/**
-            - `application.properties` → Configuración por defecto
-    - **test/**
-        - **java/** → Tests unitarios
 
 ## 🗺 Diagrama del flujo de la API
 
@@ -59,11 +39,9 @@ Este proyecto usa `docker-compose` con contenedores separados para:
 
 - `springboot-app`: la aplicación Spring Boot compilada.
 - `postgres-db`: base de datos PostgreSQL.
-- `tests-runner`: contenedor Maven que ejecuta los tests con Testcontainers.
 
 ### ✅ Requisitos
-- Docker Desktop (Windows/Mac)
-- Docker Engine (Linux)
+- Docker
 
 ---
 

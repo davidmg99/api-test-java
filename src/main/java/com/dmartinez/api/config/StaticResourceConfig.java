@@ -10,6 +10,6 @@ public class StaticResourceConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/invoices/**")
-                .addResourceLocations("file:invoices/");
+                .addResourceLocations("file:/app/invoices/");
     }
 }

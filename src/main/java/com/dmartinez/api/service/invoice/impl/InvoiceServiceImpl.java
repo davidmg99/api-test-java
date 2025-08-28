@@ -11,15 +11,11 @@ import com.dmartinez.api.service.urlgenerator.FileUrlGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +31,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceResponseDTO createInvoice(CreateInvoiceDTO request) {
-        MultipartFile file = request.getFileName();
+        MultipartFile file = request.getFile();
 
         if (file.isEmpty()) {
             throw new IllegalArgumentException("El archivo está vacío");

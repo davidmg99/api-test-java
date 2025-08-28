@@ -24,5 +24,5 @@ public class CreateInvoiceDTO {
     private LocalDateTime endPeriod;
 
     @NotNull
-    private MultipartFile fileName;
+    private MultipartFile file;
 }
