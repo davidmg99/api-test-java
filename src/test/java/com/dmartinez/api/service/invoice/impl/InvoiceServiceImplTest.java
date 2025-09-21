@@ -48,7 +48,7 @@ class InvoiceServiceImplTest {
         // Arrange
         MockMultipartFile file = new MockMultipartFile("file", "invoice.pdf", "application/pdf", "data".getBytes());
         CreateInvoiceDTO request = new CreateInvoiceDTO();
-        request.setFileName(file);
+        request.setFile(file);
 
         String storedFileName = UUID.randomUUID() + "_invoice.pdf";
         String fileUrl = "http://localhost/invoices/" + storedFileName;
@@ -82,7 +82,7 @@ class InvoiceServiceImplTest {
         // Arrange
         MockMultipartFile file = new MockMultipartFile("file", "invoice.pdf", "application/pdf", "data".getBytes());
         CreateInvoiceDTO request = new CreateInvoiceDTO();
-        request.setFileName(file);
+        request.setFile(file);
 
         when(fileStorageService.storeFile(file)).thenThrow(new IOException("Simulated error"));
 
@@ -102,7 +102,7 @@ class InvoiceServiceImplTest {
         // Arrange
         MockMultipartFile emptyFile = new MockMultipartFile("file", "empty.pdf", "application/pdf", new byte[0]);
         CreateInvoiceDTO request = new CreateInvoiceDTO();
-        request.setFileName(emptyFile);
+        request.setFile(emptyFile);
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
